@@ -966,8 +966,10 @@ static void gather_symbol_live_ranges(
 /// \param classname: Class name
 /// \return Returns a function call to the given class' static initializer
 ///   wrapper if one is needed, or a skip instruction otherwise.
-codet java_bytecode_convert_methodt::get_clinit_call(
-  const irep_idt &classname)
+codet get_clinit_call(
+  const irep_idt &classname,
+  const symbol_table_baset &symbol_table,
+  optionalt<ci_lazy_methods_neededt> &lazy_methods)
 {
 #if 0
   return code_skipt();
@@ -978,8 +980,8 @@ codet java_bytecode_convert_methodt::get_clinit_call(
   else
   {
     const code_function_callt ret(findit->second.symbol_expr());
-    if(needed_lazy_methods)
-      needed_lazy_methods->add_needed_method(findit->second.name);
+    if(lazy_methods)
+      lazy_methods->add_needed_method(findit->second.name);
     return ret;
   }
 }

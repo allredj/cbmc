@@ -274,8 +274,6 @@ protected:
 
   const bytecode_infot &get_bytecode_info(const irep_idt &statement);
 
-  codet get_clinit_call(const irep_idt &classname);
-
   bool is_method_inherited(
     const irep_idt &classname,
     const irep_idt &methodid) const;
@@ -470,4 +468,10 @@ protected:
 
   codet convert_pop(const irep_idt &statement, const exprt::operandst &op);
 };
+
+codet get_clinit_call(
+  const irep_idt &classname,
+  const symbol_table_baset &symbol_table,
+  optionalt<ci_lazy_methods_neededt> &lazy_methods);
+
 #endif
