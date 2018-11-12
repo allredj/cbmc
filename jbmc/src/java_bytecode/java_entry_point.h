@@ -20,14 +20,15 @@ Author: Daniel Kroening, kroening@kroening.com
 #define JAVA_ENTRY_POINT_EXCEPTION_SYMBOL "uncaught_exception'"
 
 bool java_entry_point(
-  class symbol_table_baset &symbol_table,
+  symbol_table_baset &symbol_table,
   const irep_idt &main_class,
-  class message_handlert &message_handler,
+  message_handlert &message_handler,
   bool assume_init_pointers_not_null,
   bool assert_uncaught_exceptions,
   const java_object_factory_parameterst &object_factory_parameters,
   const select_pointer_typet &pointer_type_selector,
-  bool string_refinement_enabled);
+  bool string_refinement_enabled,
+  std::vector<irep_idt> &methods_to_load);
 
 struct main_function_resultt
 {
@@ -72,11 +73,12 @@ main_function_resultt get_main_symbol(
 
 bool generate_java_start_function(
   const symbolt &symbol,
-  class symbol_table_baset &symbol_table,
-  class message_handlert &message_handler,
+  symbol_table_baset &symbol_table,
+  message_handlert &message_handler,
   bool assume_init_pointers_not_null,
   bool assert_uncaught_exceptions,
   const java_object_factory_parameterst &object_factory_parameters,
-  const select_pointer_typet &pointer_type_selector);
+  const select_pointer_typet &pointer_type_selector,
+  std::vector<irep_idt> &needed_lazy_methods);
 
 #endif // CPROVER_JAVA_BYTECODE_JAVA_ENTRY_POINT_H

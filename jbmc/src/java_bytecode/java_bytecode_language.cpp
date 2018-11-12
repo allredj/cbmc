@@ -858,8 +858,9 @@ bool java_bytecode_languaget::generate_support_functions(
   // parameter names
   convert_lazy_method(res.main_function.name, symbol_table_builder);
 
+  std::vector<irep_idt> methods_to_load;
   // generate the test harness in __CPROVER__start and a call the entry point
-  return java_entry_point(
+  auto entry_point = java_entry_point(
     symbol_table_builder,
     main_class,
     get_message_handler(),
@@ -867,7 +868,11 @@ bool java_bytecode_languaget::generate_support_functions(
     assert_uncaught_exceptions,
     object_factory_parameters,
     get_pointer_type_selector(),
-    string_refinement_enabled);
+    string_refinement_enabled,
+    methods_to_load);
+  extra_methods.push_back([methods_to_load](const symbol_tablet &){
+    return methods_to_load;});
+  return entry_point;
 }
 
 /// Uses a simple context-insensitive ('ci') analysis to determine which methods

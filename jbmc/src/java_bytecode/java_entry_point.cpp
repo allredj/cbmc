@@ -22,6 +22,7 @@ Author: Daniel Kroening, kroening@kroening.com
 #include "java_object_factory.h"
 #include "java_string_literals.h"
 #include "java_utils.h"
+#include "java_bytecode_convert_method_class.h"
 #include <util/fresh_symbol.h>
 #include <util/nondet.h>
 
@@ -615,7 +616,8 @@ bool java_entry_point(
   bool assert_uncaught_exceptions,
   const java_object_factory_parameterst &object_factory_parameters,
   const select_pointer_typet &pointer_type_selector,
-  bool string_refinement_enabled)
+  bool string_refinement_enabled,
+  std::vector<irep_idt> &methods_to_load)
 {
   // check if the entry point is already there
   if(symbol_table.symbols.find(goto_functionst::entry_point())!=
@@ -649,7 +651,8 @@ bool java_entry_point(
     assume_init_pointers_not_null,
     assert_uncaught_exceptions,
     object_factory_parameters,
-    pointer_type_selector);
+    pointer_type_selector,
+    methods_to_load);
 }
 
 /// Generate a _start function for a specific function. See
@@ -670,10 +673,21 @@ bool generate_java_start_function(
   bool assume_init_pointers_not_null,
   bool assert_uncaught_exceptions,
   const java_object_factory_parameterst &object_factory_parameters,
-  const select_pointer_typet &pointer_type_selector)
+  const select_pointer_typet &pointer_type_selector,
+  std::vector<irep_idt> &methods_to_load)
 {
   messaget message(message_handler);
   code_blockt init_code;
+
+  // Add calls to clinit_wrapper functions
+  for(const auto sym : symbol_table.symbols)
+  {
+    if(has_suffix(id2string(sym.first), "::clinit_wrapper"))
+    {
+      methods_to_load.push_back(sym.first);
+      init_code.add(code_function_callt(sym.second.symbol_expr()));
+    }
+  }
 
   // build call to initialization function
   {
