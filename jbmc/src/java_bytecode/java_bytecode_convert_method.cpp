@@ -2231,8 +2231,10 @@ void java_bytecode_convert_methodt::convert_invoke(
   if(!use_this)
   {
     codet clinit_call = code_skipt();
+#if 0
     if(clinit_call.get_statement() != ID_skip)
       c = code_blockt({clinit_call, c});
+#endif
   }
 }
 
