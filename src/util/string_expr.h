@@ -33,17 +33,15 @@ binary_relation_exprt greater_than(const exprt &lhs, mp_integer i)
   return greater_than(lhs, from_integer(i, lhs.type()));
 }
 
-template <typename T>
-binary_relation_exprt length_le(const T &lhs, const exprt &rhs)
+binary_relation_exprt lower_or_equal_to(const exprt &lhs, const exprt &rhs)
 {
-  PRECONDITION(rhs.type() == lhs.length().type());
-  return binary_relation_exprt(lhs.length(), ID_le, rhs);
+  PRECONDITION(rhs.type() == lhs.type());
+  return binary_relation_exprt(lhs, ID_le, rhs);
 }
 
-template <typename T>
-binary_relation_exprt length_le(const T &lhs, mp_integer i)
+binary_relation_exprt lower_or_equal_to(const exprt &lhs, mp_integer i)
 {
-  return length_le(lhs, from_integer(i, lhs.length().type()));
+  return lower_or_equal_to(lhs, from_integer(i, lhs.type()));
 }
 
 equal_exprt equal_to(const exprt &lhs, const exprt &rhs)
