@@ -221,6 +221,15 @@ bool exprt::is_one() const
   return false;
 }
 
+#include <util/format_expr.h>
+
+std::string exprt::pretty_format() const
+{
+  std::ostringstream stream;
+  format_rec(stream, *this);
+  return stream.str();
+}
+
 /// Get a \ref source_locationt from the expression or from its operands
 /// (non-recursively).
 /// If no source location is found, a nil `source_locationt` is returned.

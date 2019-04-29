@@ -313,6 +313,8 @@ public:
     validate_expr(expr, ns, vm);
   }
 
+  std::string pretty_format() const;
+
 protected:
   exprt &add_expr(const irep_idt &name)
   {
