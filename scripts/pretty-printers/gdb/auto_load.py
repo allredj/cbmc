@@ -9,6 +9,8 @@ def build_pretty_printer_collection():
     # First argument is the name of the pretty-printer, second is a regex match for which type
     # it should be applied too, third is the class that should be called to pretty-print that type.
     printers.add_printer(
+        'exprt', '^exprt', pretty_printers.ExprtPrettyPrinter)
+    printers.add_printer(
         'irep_idt', '^irep_idt', pretty_printers.DStringPrettyPrinter)
     printers.add_printer(
         'dstringt', '^dstringt', pretty_printers.DStringPrettyPrinter)
