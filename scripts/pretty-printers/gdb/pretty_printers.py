@@ -52,7 +52,7 @@ class ExprtPrettyPrinter:
 
             # If it isn't attempt to find the string.
             value = '(*{})'.format(typed_pointer)
-            return gdb.parse_and_eval('from_expr(' + value + ')')
+            return gdb.parse_and_eval(value + '.pretty_format()')
         except:
             return ""
 
