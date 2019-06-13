@@ -170,7 +170,6 @@ SRC = $(BOOLEFORCE_SRC) \
       strings/string_constraint.cpp \
       strings/string_constraint_generator_code_points.cpp \
       strings/string_constraint_generator_comparison.cpp \
-      strings/string_constraint_generator_concat.cpp \
       strings/string_constraint_generator_constants.cpp \
       strings/string_constraint_generator_indexof.cpp \
       strings/string_constraint_generator_insert.cpp \
